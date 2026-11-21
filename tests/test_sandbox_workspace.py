@@ -329,7 +329,14 @@ class TestBlockedReason(SandboxTestBase):
             {"action": "write_file", "path": _outside_path(), "text": "x"})
         self.assertIsNotNone(reason)
         self.assertIn("allow_outside_writes", reason)
-        self.assertIn(str(self.workspace), reason)
+        # The message reports the resolved workspace. On a CI runner the temp
+        # folder is still reached through an 8.3 short name (RUNNER~1), which
+        # realpath expands, so compare the resolved forms instead of the raw
+        # string.
+        self.assertIn(
+            os.path.normcase(os.path.realpath(str(self.workspace))),
+            os.path.normcase(reason),
+        )
 
     def test_workspace_write_is_never_blocked(self) -> None:
         self.assertIsNone(self.sandbox.blocked_reason(
