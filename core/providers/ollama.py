@@ -151,11 +151,15 @@ def installed_models(url: str = "http://localhost:11434",
     """
     now = _time.monotonic()
     cached = _MODELS_CACHE.get(url)
-    if cached and (now - cached[0]) < ttl:
-        return cached[1]
+    if cached:
+        # An empty list means Ollama is not running. Remember that too, for a
+        # shorter while: otherwise every single chat request pays the probe
+        # timeout before the router can fall back to another provider.
+        ttl_for_entry = ttl if cached[1] else min(ttl, 10.0)
+        if (now - cached[0]) < ttl_for_entry:
+            return cached[1]
     models = list_models(url, timeout)
-    if models:
-        _MODELS_CACHE[url] = (now, models)
+    _MODELS_CACHE[url] = (now, models)
     return models
 
 

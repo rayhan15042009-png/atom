@@ -616,12 +616,14 @@ class TestBrainThreadIntegration(unittest.TestCase):
     # The provider order check probes 8.8.8.8 with a 2 s timeout. On a CI runner
     # outbound DNS is blocked, so that probe ate the whole wait and the emit
     # assertion failed without any code being wrong. Patch it out.
+    @patch("core.providers.router.resolve_chat_model", return_value=("phi3:mini", None))
     @patch("core.providers.router.ProviderRouter._check_internet", return_value=True)
     @patch("core.providers.router.call_ollama", return_value="*tap* Hello from mock")
     @patch("core.providers.router.call_gemini", return_value=None)
     @patch("core.providers.router.is_browser_available", return_value=False)
     @patch.dict("os.environ", {}, clear=True)
-    def test_process_emits_response(self, mock_browser, mock_gemini, mock_ollama, mock_internet):
+    def test_process_emits_response(self, mock_browser, mock_gemini, mock_ollama,
+                                    mock_internet, mock_model):
         """_process should emit response_ready for valid input."""
         from PyQt6.QtTest import QSignalSpy
         spy = QSignalSpy(self.brain.response_ready)

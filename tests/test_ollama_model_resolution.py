@@ -59,6 +59,17 @@ class TestResolveChatModel(unittest.TestCase):
         self.assertEqual(model, "phi3:mini")
         self.assertIsNone(note)
 
+    def test_an_unreachable_server_is_remembered_too(self) -> None:
+        """Ollama down: caching the empty answer stops every request paying it."""
+        calls: list[str] = []
+        with mock.patch.object(
+            ollama, "list_models", lambda url, timeout: calls.append(url) or []
+        ):
+            ollama._MODELS_CACHE.clear()
+            self.assertEqual(ollama.installed_models("http://x"), [])
+            self.assertEqual(ollama.installed_models("http://x"), [])
+        self.assertEqual(len(calls), 1, "a dead Ollama was probed twice")
+
     def test_installed_models_are_cached(self) -> None:
         calls: list[str] = []
         with mock.patch.object(

@@ -158,7 +158,7 @@ tools/             dev probes and asset generators (probe_full_run.py = end-to-e
 .venv\Scripts\python -m pytest tests -q
 ```
 
-900 tests, no network required, GUI tests run on Qt's `offscreen` platform. The CI
+901 tests, no network required, GUI tests run on Qt's `offscreen` platform. The CI
 workflow (`.github/workflows/ci.yml`) runs the same suite on `windows-latest`.
 
 For an end-to-end check of what a user actually sees — intro, handoff to Atom, a
