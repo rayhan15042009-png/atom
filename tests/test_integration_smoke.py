@@ -61,12 +61,20 @@ _patcher.start()
 # Helper: create a QApplication once per test session
 # ═══════════════════════════════════════════════════════════════════════
 
+#: Keeps the QApplication alive. Returning it to a caller that ignores the
+#: result let Python garbage-collect the app mid-test; the next QPixmap call
+#: then aborted the interpreter with "Must construct a QGuiApplication".
+_APP: Any = None
+
+
 def _ensure_qapp() -> Any:
     """Create QApplication if one doesn't exist (offscreen platform)."""
+    global _APP
     from PyQt6.QtWidgets import QApplication
     app = QApplication.instance()
     if app is None:
         app = QApplication(sys.argv[:1] if sys.argv else [""])
+    _APP = app
     return app
 
 

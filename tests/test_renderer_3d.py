@@ -323,7 +323,9 @@ class TestRendererAnimationTimerTeardown(unittest.TestCase):
     """
 
     def _widget(self):
-        QApplication.instance() or QApplication([])
+        # Hold the reference: a temporary QApplication can be garbage-collected
+        # between tests and the next Qt call aborts the process.
+        self._app = QApplication.instance() or QApplication([])
         from ui.renderer_3d import create_3d_widget
 
         widget = create_3d_widget()
