@@ -1,0 +1,56 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Data files with potential secrets / private state
+# config, memory, chat transcript and browser cookies are per-machine runtime
+# state: they are created on first run (and on login) and must never be public.
+data/browser_profile/
+data/*.json
+!data/.env.example
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Atom's scratch workspace — everything but the README is throwaway output
+sandbox/*
+!sandbox/README.md
+
+# Third-party installers are not redistributed (see THIRD_PARTY_NOTICES.md)
+tools/installers/*.exe
+
+# Test artifacts
+test_model.gltf
+test_model.glb
+
+# Environment files
+.env
+.env.local
+
+# Backup / scratch files that must never be committed
+nul
+*.bak
+*.bak[0-9]*
+*.orig

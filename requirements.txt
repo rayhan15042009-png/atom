@@ -1,0 +1,24 @@
+# Atom's runtime dependencies.
+# Upper bounds are deliberate: a new major version of any of these has broken the
+# app before (OpenCV 5 and PyQt minor bumps both did), so this release pins the
+# range it was tested with rather than accepting whatever ships next.
+# Install with:  pip install -r requirements.txt
+PyQt6>=6.7,<7
+opencv-python>=4.9,<6
+pillow>=10,<13
+mss>=9,<11
+pytesseract>=0.3.10,<1
+pyautogui>=0.9.54,<1
+psutil>=5.9,<8
+pyttsx3>=2.90,<3
+beautifulsoup4>=4.12,<5
+requests>=2.31,<3
+playwright>=1.40,<2
+playwright-stealth>=1.0,<3
+imagehash>=4.3,<5
+trafilatura>=1.8,<3
+pyperclip>=1.8,<2
+pygame>=2.5,<3
+# 3D renderer (ui/renderer_3d.py). Missing these made the 3D build fall back to 2D.
+numpy>=1.26,<3
+PyOpenGL>=3.1,<4
